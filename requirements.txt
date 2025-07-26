@@ -1,0 +1,13 @@
+openai
+streamlit
+beautifulsoup4
+requests
+llama-index
+langchain
+langchain-groq
+python-dotenv
+ipykernel
+langchain-community
+langchain-openai
+cohere
+langchain-cohere
