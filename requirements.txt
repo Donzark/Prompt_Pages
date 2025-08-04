@@ -9,5 +9,5 @@ python-dotenv
 ipykernel
 langchain-community
 langchain-openai
-cohere
+cohere>=5.0.0
 langchain-cohere
