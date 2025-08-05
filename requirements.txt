@@ -11,3 +11,4 @@ langchain-community
 langchain-openai
 cohere>=5.0.0
 langchain-cohere
+faiss-cpu
