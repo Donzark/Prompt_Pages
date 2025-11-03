@@ -159,29 +159,74 @@ if st.session_state.vector_store and st.session_state.summary:
 if st.session_state.query_history:
     st.markdown("### 🧠 Answers")
     for q in reversed(st.session_state.query_history):
-        escaped_question = html.escape(q['question'])
-        escaped_answer = html.escape(q['answer'])
+    escaped_question = html.escape(q['question'])
 
-        with st.container():
-            st.markdown(
-                f"""
-                <div style='
-                    background-color:#1f77b4;
-                    padding: 12px;
-                    border-radius: 10px;
-                    margin-bottom: 8px;
-                    color: white;
-                    font-size: 16px;
-                    font-weight: bold;
-                '>
-                    Question: {escaped_question}
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-            st.markdown("**Answer:**")
-            st.markdown(q['answer']) 
-            st.markdown("<br>", unsafe_allow_html=True)
+    with st.container():
+        st.markdown(
+            f"""
+            <div style='
+                background-color:#1f77b4;
+                padding: 12px;
+                border-radius: 10px;
+                margin-bottom: 8px;
+                color: white;
+                font-size: 16px;
+                font-weight: bold;
+            '>
+                Question: {escaped_question}
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        st.markdown("**Answer:**")
+
+        answer = q['answer']
+
+        # ✅ Detect and render code blocks or plain text with proper formatting
+        if "```" in answer:
+            parts = answer.split("```")
+            for i, part in enumerate(parts):
+                if i % 2 == 1:
+                    # Code block detected
+                    # Try to auto-detect language (optional)
+                    first_line = part.strip().split("\n", 1)[0]
+                    if first_line in ["python", "php", "js", "html", "sql"]:
+                        lang = first_line
+                        code_content = part.strip().split("\n", 1)[1] if "\n" in part else ""
+                    else:
+                        lang = "python"  # fallback
+                        code_content = part.strip()
+                    st.code(code_content, language=lang)
+                else:
+                    # Normal text with preserved newlines
+                    st.markdown(part.replace("\n", "  \n"))
+        else:
+            st.markdown(answer.replace("\n", "  \n"))
+
+    # for q in reversed(st.session_state.query_history):
+    #     escaped_question = html.escape(q['question'])
+    #     escaped_answer = html.escape(q['answer'])
+
+    #     with st.container():
+    #         st.markdown(
+    #             f"""
+    #             <div style='
+    #                 background-color:#1f77b4;
+    #                 padding: 12px;
+    #                 border-radius: 10px;
+    #                 margin-bottom: 8px;
+    #                 color: white;
+    #                 font-size: 16px;
+    #                 font-weight: bold;
+    #             '>
+    #                 Question: {escaped_question}
+    #             </div>
+    #             """,
+    #             unsafe_allow_html=True
+    #         )
+    #         st.markdown("**Answer:**")
+    #         st.markdown(q['answer']) 
+    #         st.markdown("<br>", unsafe_allow_html=True)
 
 # --- Footer ---
 st.markdown("""
