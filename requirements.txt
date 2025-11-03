@@ -12,3 +12,7 @@ langchain-openai
 cohere>=5.0.0
 langchain-cohere
 faiss-cpu
+pyyaml
+setuptools>=68.0.0
+wheel
+Cython
